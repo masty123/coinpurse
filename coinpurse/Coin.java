@@ -1,69 +1,87 @@
 package coinpurse;
 
+import java.text.DecimalFormat;
+
 /**
 * An application that can insert and remove coin.
 * @author Theeruth Borisuth
 */
-public class Coin implements Comparable<Coin>{
-	//variables 
-	private double value ;
-	private String currency = "Baht" ;
+public class Coin implements Comparable<Coin> {
+	public static final String DEFAULT_CURRENCY = "Baht";
+	/** Value of the coin. */
+	private final double value;
+	/** The currency, of course. */
+	private final String currency;
+
 	/**
-	 * A constructor that can receive value 
+	 * A coin with given value using the default currency.
 	 * @param value
 	 */
-	public  Coin(double value){
-		this.value = value ;
+	public Coin( double value ) {
+		this.value = value;
+		this.currency = DEFAULT_CURRENCY;
 	}
+
 	/**
-	 * A constructor that can receive both value and currency 
-	 * @param value and currency
+	 * A coin with given value and currency.
+	 * @param value
+	 * @param currency
 	 */
-	public Coin(double value,String curr){
-		this.value = value ;
-		this.currency = curr;
+	public Coin( double value, String currency ) {
+		this.value = value;
+		this.currency = currency;
 	}
+
 	/**
-	 * Return the value
-	 * @return value
+	 * @return value of the coin.
 	 */
-	public double getValue(){
-		return this.value ;
-	}
+	public double getValue( ) {
+		return value;
+	} 
+
 	/**
-	 * Return the currency
-	 * @return currency
+	 * @return currency of the coin
 	 */
-	public String getCurrency(){
-		return this.currency;
+	public String getCurrency() {
+		return currency;
 	}
-	public boolean equals(Object arg){
-			// ( verify that obj is not null
-			if (arg == null) return false;
-			//  test that obj is the same class as "this" object
-			if ( arg.getClass() != this.getClass())return false;
-			//  cast obj to this class's type
-			Coin other = (Coin) arg;
-			//  compare whatever values determine "equal"
-			if ( arg == other ) 
-				return true;
-			return false; 
-	}
-	/**Check the currency 
-	 * @return
-	 */
-	@Override
-	public int compareTo(Coin other) {
-		if(other==null)
-            throw new IllegalArgumentException("null");
-        if(!this.currency.equalsIgnoreCase(other.currency))
-            throw new IllegalArgumentException("different currency!");
-        return (int)((this.value-other.value)*100);
-	}
+
 	/**
-	 * Display the purse money.
+	 * Check if the value of the coins are equal.
+	 * @return true if the object are equal.
+	 * @return false if the object are not equal.
 	 */
-	public String toString(){
-		return String.format("%.1f %s", value,currency);
-	}	
+	public boolean equals( Object obj ) {
+		if(obj.getClass() != this.getClass() || obj == null){
+			return false;
+		}
+		Coin objCoin = ( Coin ) obj;
+		return this.value == objCoin.getValue() && this.currency == objCoin.getCurrency();
+	}
+
+	/**
+	 * Compare the value of 2 coins.
+	 * @return int of compareTo method.
+	 */
+	public int compareTo( Coin other ){
+		if(this.value < other.getValue()){
+			return -1;
+		}
+		else if(this.value > other.getValue()){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+
+	/**
+	 * Convert coin to string.
+	 * @return Coin as a string.
+	 */
+	public String toString() {
+		DecimalFormat format = new DecimalFormat("0.##");
+		return format.format(value) + "-" + currency;
+	}
+
 }

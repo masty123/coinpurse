@@ -53,22 +53,20 @@ public class CoinUtil {
 	 * Hint: this is easy if you sort the coins by currency first. :-)
 	 */
 	public static void sumByCurrency(List<Coin> coins) {
-            coins.sort(new CompareByCurrency());
-            List<Purse> temp = new ArrayList<>();
-            temp.add(new Purse(Integer.MAX_VALUE));
-            int count = 0;
-            for(Coin c : coins){
-                try{
-                    temp.get(count).insert(c);
-                }
-                catch(IllegalArgumentException e){
-                    temp.add(new Purse(Integer.MAX_VALUE));
-                    temp.get(++count).insert(c);
-                }
-            }
-            for(Purse p : temp){
-                System.out.println(p.getBalance()+" "+p.getCurrency());
-            }
+		sortByCurrency(coins);
+		String currency = "";
+		double sum = 0;
+		ArrayList<String> result = new ArrayList<String>();
+		for(int i = 0 ; i < coins.size() ; i++){
+			currency = coins.get(i).getCurrency();
+			sum = sum + coins.get(i).getValue();
+			if(i < coins.size() - 1){
+				if(!coins.get(i).getCurrency().equals(coins.get(i + 1).getCurrency())){
+					result.add(sum + " " + currency);
+					sum = 0;				
+					}
+			}
+		}
 	}
 	
 	/**
