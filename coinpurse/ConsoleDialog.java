@@ -44,7 +44,7 @@ public class ConsoleDialog implements Runnable {
         System.out.println("Goodbye. The purse still has "+purse.getBalance()+" "+CURRENCY);
     }
 
-    /** Ask the user how many coins to deposit into purse, then deposit them.
+    /** Ask the user how many coins or banknote to deposit into purse, then deposit them.
      *  Show result of success or failure.
      */
     public void depositDialog() {
@@ -53,11 +53,21 @@ public class ConsoleDialog implements Runnable {
         // parse input line into numbers
         Scanner scanline = new Scanner(inline);
         while( scanline.hasNextDouble() ) {
+        
             double value = scanline.nextDouble();
-            Coin coin = new Coin(value);
-            System.out.printf("Deposit %s... ", coin.toString() );
-            boolean ok = purse.insert(coin);
-            System.out.println( (ok? "ok" : "FAILED") );
+            if(value<20){
+            	Coin coin = new Coin(value);
+                System.out.printf("Deposit %s... ", coin.toString() );
+                boolean ok = purse.insert(coin);
+                System.out.println( (ok? "ok" : "FAILED") );
+            }
+            else{
+            	BankNote banknote = new BankNote(value);
+                System.out.printf("Deposit %s... ", banknote.toString() );
+                boolean ok = purse.insert(banknote);
+                System.out.println( (ok? "ok" : "FAILED") );
+            }
+            
         }
         if ( scanline.hasNext() )
             System.out.println("Invalid input: "+scanline.next() );
@@ -70,7 +80,7 @@ public class ConsoleDialog implements Runnable {
         System.out.print("How much to withdraw? ");
         if ( console.hasNextDouble() ) {
              double amount = console.nextDouble( );
-             Coin [] coins = purse.withdraw(amount);
+             Valuable [] coins = purse.withdraw(amount);
              if ( coins == null ) 
                 System.out.printf("Sorry, couldn't withdraw %g %s\n", amount, CURRENCY);
              else {

@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 * An application that can insert and remove coin.
 * @author Theeruth Borisuth
 */
-public class Coin implements Comparable<Coin> {
+public class Coin implements Valuable {
 	public static final String DEFAULT_CURRENCY = "Baht";
 	/** Value of the coin. */
 	private final double value;
@@ -55,7 +55,7 @@ public class Coin implements Comparable<Coin> {
 		if(obj.getClass() != this.getClass() || obj == null){
 			return false;
 		}
-		Coin objCoin = ( Coin ) obj;
+		Valuable objCoin = ( Valuable ) obj;
 		return this.value == objCoin.getValue() && this.currency == objCoin.getCurrency();
 	}
 
@@ -63,7 +63,7 @@ public class Coin implements Comparable<Coin> {
 	 * Compare the value of 2 coins.
 	 * @return int of compareTo method.
 	 */
-	public int compareTo( Coin other ){
+	public int compareTo( Valuable other ){
 		if(this.value < other.getValue()){
 			return -1;
 		}
