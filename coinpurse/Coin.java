@@ -6,20 +6,16 @@ import java.text.DecimalFormat;
 * An application that can insert and remove coin.
 * @author Theeruth Borisuth
 */
-public class Coin implements Valuable {
-	public static final String DEFAULT_CURRENCY = "Baht";
-	/** Value of the coin. */
-	private final double value;
-	/** The currency, of course. */
-	private final String currency;
+public class Coin extends AbstractValuable {
+    String denominator;
+    double exchange ;
 
 	/**
 	 * A coin with given value using the default currency.
 	 * @param value
 	 */
 	public Coin( double value ) {
-		this.value = value;
-		this.currency = DEFAULT_CURRENCY;
+		super(value, "Baht");
 	}
 
 	/**
@@ -28,10 +24,20 @@ public class Coin implements Valuable {
 	 * @param currency
 	 */
 	public Coin( double value, String currency ) {
-		this.value = value;
-		this.currency = currency;
+		super(value,currency);
 	}
-
+	/**
+     * Create a coin with denomination
+     * @param value - value of a c	oin with currency
+     * @param currency - currency of a coin
+     * @param denomination - currenct's different denomination of a coin
+     * @param exchange - ratio to exchange from main currency to different denomination
+     */
+    public Coin(double value, String currency, String denomination, double exchange) {
+    	super( value, currency);
+    	this.denominator = denomination;
+    	this.exchange = exchange;
+    }
 	/**
 	 * @return value of the coin.
 	 */
@@ -74,14 +80,22 @@ public class Coin implements Valuable {
 			return 0;
 		}
 	}
+	 /**
+     * Return String representation of the coin.
+     * @return String representation of the coin
+     */
+    @Override
+    public String toString(){
+    	String showCurrency="";
+    	if ( denominator==null ) {
+    		showCurrency = currency;
+    	} else {
+    		showCurrency = denominator;
+    	}
+    	DecimalFormat numFormat = new DecimalFormat("0.##");
+    	return String.format("%s %s",numFormat.format(value),showCurrency);
+    }
 
-	/**
-	 * Convert coin to string.
-	 * @return Coin as a string.
-	 */
-	public String toString() {
-		DecimalFormat format = new DecimalFormat("0.##");
-		return format.format(value) + "-" + currency;
+	
 	}
 
-}

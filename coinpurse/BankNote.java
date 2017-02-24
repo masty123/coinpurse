@@ -3,32 +3,36 @@ package coinpurse;
 * An application that can insert and remove banknote.
 * @author Theeruth Borisuth
 */
-public class BankNote implements Valuable {
-	//The initiate of the first serial number.
-	private static long nextSerialNumber = 1000000 ;
-	//Value of the money.
-	private double value ;
+public class BankNote extends AbstractValuable {
+	
 	//Value of serial number.
 	private  long serialNumber ;
-	//Default of the curreny
-	private String currency = "Baht";
 	/**
-	 * A banknote with given value using the default currency.
+	 * A banknote with given value and serialNumber.
 	 * @param value
+	 * @param serialNumber
 	 */
-	public BankNote(double value){
-		this.value = value ;
-		serialNumber = nextSerialNumber++;
+	public BankNote(double value, long serialNumber){
+		super(value,"Baht");
+		this.serialNumber = serialNumber;
 	}
 	/**
-	 * A banknote with given value and currency.
-	 * @param value
-	 * @param currency
+	 * Initialize a bank note with a currency.
+	 * @param value - initial value of bank note
+	 * @param currency - currency of bank note
 	 */
-	public BankNote(double value, String currency){
-		this.value = value ;
-		this.currency = currency ;
-		serialNumber = nextSerialNumber++;
+	public BankNote(double value, String currency, long serialNumer)
+	{
+		super(value,currency);
+		this.serialNumber = serialNumber;
+	}
+	/**
+	 * Get bank note's serial number
+	 * @return serial number of bank note
+	 */
+	public	long getSerial()
+	{
+		return this.serialNumber;
 	}
 	/**
 	 * @return value of the banknote.

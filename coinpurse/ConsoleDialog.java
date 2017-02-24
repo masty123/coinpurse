@@ -53,21 +53,17 @@ public class ConsoleDialog implements Runnable {
         // parse input line into numbers
         Scanner scanline = new Scanner(inline);
         while( scanline.hasNextDouble() ) {
-        
             double value = scanline.nextDouble();
-            if(value<20){
-            	Coin coin = new Coin(value);
-                System.out.printf("Deposit %s... ", coin.toString() );
-                boolean ok = purse.insert(coin);
+            Valuable valuable ;
+            try {
+                valuable = MoneyFactory.getInstance().createMoney(value);
+                System.out.printf("Deposit %s... ", valuable.toString());
+                boolean ok = purse.insert(valuable);
                 System.out.println( (ok? "ok" : "FAILED") );
             }
-            else{
-            	BankNote banknote = new BankNote(value);
-                System.out.printf("Deposit %s... ", banknote.toString() );
-                boolean ok = purse.insert(banknote);
-                System.out.println( (ok? "ok" : "FAILED") );
-            }
-            
+            catch(IllegalArgumentException e) {
+                System.out.println("Invalid Amount");
+            } 
         }
         if ( scanline.hasNext() )
             System.out.println("Invalid input: "+scanline.next() );
